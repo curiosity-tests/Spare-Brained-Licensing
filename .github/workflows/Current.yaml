@@ -1,7 +1,22 @@
 name: ' Test Current'
+run-name: " Test Current ${{ inputs.leg || github.event_name }} ${{ inputs.racecar_run }}"
 
 on:
   workflow_dispatch:
+    inputs:
+      leg:
+        description: "baseline (uninstrumented) or instrumented (under chalk/curiosity)"
+        type: choice
+        options: [instrumented, baseline]
+        default: baseline
+      profile:
+        description: "CrashOverride chalk profile"
+        type: string
+        default: curiosity-tests-racecar
+      racecar_run:
+        description: "racecar correlation token, echoed into the run name"
+        type: string
+        default: ""
   schedule:
     - cron: '30 8 * * 5'
 
@@ -15,6 +30,7 @@ defaults:
     shell: pwsh
 
 env:
+  CHALK_ON: ${{ inputs.leg == 'instrumented' }}
   workflowDepth: 1
   ALGoOrgSettings: ${{ vars.ALGoOrgSettings }}
   ALGoRepoSettings: ${{ vars.ALGoRepoSettings }}
