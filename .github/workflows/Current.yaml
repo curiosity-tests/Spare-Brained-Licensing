@@ -17,8 +17,6 @@ on:
         description: "racecar correlation token, echoed into the run name"
         type: string
         default: ""
-  schedule:
-  - cron: '30 8 * * 5'
 
 permissions:
   actions: read
